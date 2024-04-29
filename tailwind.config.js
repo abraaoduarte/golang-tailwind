@@ -4,6 +4,7 @@ module.exports = {
         "internal/templates/**/*.{html,js,templ,go}",
         //  "./templates/common/**/*.{html,js,templ,go}",
     ],
+    darkMode: 'class',
     theme: {
         extend: {},
     },

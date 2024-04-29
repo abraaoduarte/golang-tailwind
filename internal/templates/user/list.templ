@@ -1,0 +1,80 @@
+package user
+
+import (
+"fmt"
+"example.com/resume/internal/types"
+"example.com/resume/internal/templates/base"
+)
+
+
+func DeleteUrl(id int) string {
+return fmt.Sprintf("/users/%v/delete/", id)
+}
+templ ListUsers(users []types.User) {
+@base.Layout() {
+
+<div class="bg-gray-900 py-10">
+    <div class="px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-base font-semibold leading-6 text-white">Users</h1>
+                <p class="mt-2 text-sm text-gray-300">A list of all the users in your account including their name,
+                    title, email and role.</p>
+            </div>
+            <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                <a href="/users/create/"
+                    class="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-6 flow-root bg-gray-900">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <table class="min-w-full divide-y divide-gray-700">
+                <thead>
+                    <tr>
+                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">Name
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Email</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Birthdate</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Is Admin</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                            <span class="sr-only">Edit</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800">
+                    for _, item := range users {
+                    <tr>
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">{item.Name}
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{item.Email}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                            {item.Birthdate.Format(("02/01/2006"))}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                            if item.IsAdmin {
+                            <p>Yes</p>
+                            } else {
+                            <p>No</p>
+                            }
+                        </td>
+                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                        <div class="flex flex-row w-20">
+                            <a href={templ.URL(item.Permalink("edit"))} class="text-indigo-400 hover:text-indigo-300">Edit<span class="sr-only">{item.Name}</span></a>
+                            <form action={templ.URL(DeleteUrl(item.Id))} method="post">
+                                <button type="submit">
+                                    <span class="text-blue-600">Delete</span>
+                                </button>
+                            </form>
+                        </div> 
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+}
+}

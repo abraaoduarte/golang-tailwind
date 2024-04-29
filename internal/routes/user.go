@@ -18,5 +18,10 @@ func (ur UserRouter) SetRoutes(router *echo.Echo) {
 	user := router.Group("/users")
 	uh := handler.NewUserHandler(ur.db)
 
-    user.GET("/", uh.GetUsers)
+    user.GET("/", uh.Index)
+    user.POST("/", uh.Store)
+    user.GET("/create/", uh.Create)
+    user.GET("/:id/edit/", uh.Edit)
+    user.POST("/:id/update/", uh.Update)
+    user.POST("/:id/delete/", uh.Delete)
 }

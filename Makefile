@@ -15,7 +15,11 @@ build:
 
 .PHONY: templ-watch
 templ-watch:
-	templ generate --watch
+	templ generate --watch -proxy=http://localhost:${PORT}
+
+.PHONY: go-watch
+go-watch:
+	templ generate --watch --cmd="go run ./cmd/$(APP_NAME)/main.go"
 
 .PHONY: tailwind-build
 tailwind-build:

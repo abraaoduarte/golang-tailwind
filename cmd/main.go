@@ -11,6 +11,7 @@ import (
 	"example.com/resume/internal/routes"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -35,7 +36,9 @@ func main() {
     database.RunMigration()
 
 	server := echo.New()
-    
+    server.Pre(middleware.AddTrailingSlash())
+    server.Use(middleware.Logger())
+
     routes.RegisterRouters(conn, server)
 
     server.Static("/css", "/css")
